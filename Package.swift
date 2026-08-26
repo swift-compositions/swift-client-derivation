@@ -17,6 +17,10 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            url: "https://github.com/swift-foundations/swift-client.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-foundations/swift-witness-derivation.git",
             branch: "main"
         ),
@@ -33,7 +37,6 @@ let package = Package(
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
                 .product(name: "SwiftDiagnostics", package: "swift-syntax"),
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
             ]
         ),
@@ -43,8 +46,23 @@ let package = Package(
         ),
         .testTarget(
             name: "Algebra Derivation Tests",
-            dependencies: ["Algebra Derivation"]
+            dependencies: [
+                "Algebra Derivation",
+                .product(name: "Client", package: "swift-client"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
+
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
+    target.swiftSettings = (target.swiftSettings ?? []) + [
+        .strictMemorySafety(),
+        .enableUpcomingFeature("ExistentialAny"),
+        .enableUpcomingFeature("InternalImportsByDefault"),
+        .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableExperimentalFeature("Lifetimes"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+    ]
+}
