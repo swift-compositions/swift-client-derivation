@@ -1,9 +1,9 @@
 import SwiftDiagnostics
 
-struct AlgebraMessage: DiagnosticMessage {
+struct ClientMessage: DiagnosticMessage {
     let message: String
     let diagnosticID = MessageID(
-        domain: "AlgebraDerivation",
+        domain: "ClientDerivation",
         id: "unsupported-signature"
     )
     let severity = DiagnosticSeverity.error

@@ -1,17 +1,17 @@
-import Algebra_Derivation
+import Client_Derivation
 import Client
 import Testing
 
-public enum GreetingAlgebraFixture {
-    @Algebra
+public enum GreetingClientFixture {
+    @Client
     package protocol Signature {
         func greet(_ name: String) async -> String
     }
 }
 
 @Test
-func algebraDerivesInfallibleClientArrow() async {
-    let client = GreetingAlgebraFixture.Client(
+func clientDerivesInfallibleArrow() async {
+    let client = GreetingClientFixture.Client(
         greet: { "Hello, \($0)" }
     )
     #expect(await client.greet("Ada") == "Hello, Ada")

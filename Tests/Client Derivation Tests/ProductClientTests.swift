@@ -1,9 +1,9 @@
-import Algebra_Derivation
+import Client_Derivation
 import Client
 import Testing
 
-public enum ProductAlgebraFixture {
-    @Algebra
+public enum ProductClientFixture {
+    @Client
     package protocol Signature {
         func ping() async
         func combine(first: Int, second: Int) async -> Int
@@ -11,9 +11,9 @@ public enum ProductAlgebraFixture {
 }
 
 @Test
-func algebraDerivesAProductOfClientArrows() async {
+func clientDerivesAProductOfArrows() async {
     var pings = 0
-    let client = ProductAlgebraFixture.Client(
+    let client = ProductClientFixture.Client(
         ping: { pings += 1 },
         combine: +
     )
