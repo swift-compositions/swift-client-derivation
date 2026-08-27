@@ -2,7 +2,7 @@ import Client_Derivation
 import Client
 import Testing
 
-public enum GreetingClientFixture {
+extension Greeting {
     @Client
     package protocol Signature {
         func greet(_ name: String) async -> String
@@ -10,9 +10,18 @@ public enum GreetingClientFixture {
 }
 
 @Test
-func clientDerivesInfallibleArrow() async {
-    let client = GreetingClientFixture.Client(
+func `client derives an infallible arrow`() async {
+    let client = Greeting.Client(
         greet: { "Hello, \($0)" }
     )
     #expect(await client.greet("Ada") == "Hello, Ada")
+}
+
+@Test
+func `client derives a pointwise remote product`() async throws {
+    let remote = Greeting.Client.Remote<Counter.Error>(
+        greet: .init(run: { name in name })
+    )
+
+    #expect(try await remote.greet("Ada") == "Ada")
 }

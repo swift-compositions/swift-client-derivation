@@ -2,25 +2,25 @@ import Client_Derivation
 import Client
 import Testing
 
-public enum CounterClientFixture {
+extension Counter {
     @Client
     package protocol Signature {
-        func increment(limit: Int) async throws(CounterClientFailure) -> Int
+        func increment(limit: Int) async throws(Error) -> Int
     }
 }
 
 @Test
-func clientDerivesTypedRefusalArrow() async throws {
-    let client = CounterClientFixture.Client(
-        increment: { limit throws(CounterClientFailure) in
+func `client derives a typed refusal arrow`() async throws {
+    let client = Counter.Client(
+        increment: { limit throws(Counter.Error) in
             guard limit > 0 else {
                 throw .limit
             }
             return limit + 1
         }
     )
-    #expect(try await client.increment(limit: 2) == 3)
-    await #expect(throws: CounterClientFailure.limit) {
-        try await client.increment(limit: 0)
+    #expect(try await client.increment(2) == 3)
+    await #expect(throws: Counter.Error.limit) {
+        try await client.increment(0)
     }
 }

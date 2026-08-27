@@ -2,7 +2,7 @@ import Client_Derivation
 import Client
 import Testing
 
-public enum ProductClientFixture {
+extension Product {
     @Client
     package protocol Signature {
         func ping() async
@@ -11,14 +11,14 @@ public enum ProductClientFixture {
 }
 
 @Test
-func clientDerivesAProductOfArrows() async {
+func `client derives a product of arrows`() async {
     var pings = 0
-    let client = ProductClientFixture.Client(
+    let client = Product.Client(
         ping: { pings += 1 },
         combine: +
     )
 
-    await client.ping()
+    await client.ping(())
     #expect(pings == 1)
-    #expect(await client.combine(first: 2, second: 3) == 5)
+    #expect(await client.combine((first: 2, second: 3)) == 5)
 }

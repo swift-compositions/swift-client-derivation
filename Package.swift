@@ -25,10 +25,6 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-foundations/swift-witness-derivation.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swiftlang/swift-syntax.git",
             "602.0.0"..<"603.0.0"
         ),
@@ -37,7 +33,6 @@ let package = Package(
         .macro(
             name: "Client Derivation Macros",
             dependencies: [
-                .product(name: "Witness Derivation Core", package: "swift-witness-derivation"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
                 .product(name: "SwiftDiagnostics", package: "swift-syntax"),
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
