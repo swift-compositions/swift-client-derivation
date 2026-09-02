@@ -50,7 +50,7 @@ public struct Macro: PeerMacro {
     private static func operationClient(
         _ operations: [Operation]
     ) -> DeclSyntax {
-        let properties = operations.map(\.property).joined(separator: " ")
+        let properties = operations.map(\.property).joined(separator: "\n")
         let parameters = operations.map(\.parameter)
             .joined(separator: ", ")
         let assignments = operations.map(\.assignment)
@@ -78,7 +78,7 @@ public struct Macro: PeerMacro {
         _ operations: [Operation]
     ) -> String {
         let properties = operations.map(\.remote)
-            .joined(separator: " ")
+            .joined(separator: "\n")
         let parameters = operations.map(\.external)
             .joined(separator: ", ")
         let assignments = operations.map(\.assignment)
@@ -98,7 +98,7 @@ public struct Macro: PeerMacro {
     ) -> DeclSyntax {
         let properties = scopes.map { scope in
             "public let \(scope.name): \(scope.type)"
-        }.joined(separator: " ")
+        }.joined(separator: "\n")
         let parameters = scopes.map { scope in
             "\(scope.name): \(scope.type)"
         }.joined(separator: ", ")
@@ -122,7 +122,7 @@ public struct Macro: PeerMacro {
     ) -> String {
         let properties = scopes.map { scope in
             "public let \(scope.name): \(scope.domain).Client.Remote<External>"
-        }.joined(separator: " ")
+        }.joined(separator: "\n")
         let parameters = scopes.map { scope in
             "\(scope.name): \(scope.domain).Client.Remote<External>"
         }.joined(separator: ", ")

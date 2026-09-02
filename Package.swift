@@ -51,6 +51,7 @@ let package = Package(
         .testTarget(
             name: "Client Derivation Tests",
             dependencies: [
+                .product(name: "Either", package: "swift-either"),
                 "Client Derivation",
                 .product(name: "Client", package: "swift-client"),
             ]

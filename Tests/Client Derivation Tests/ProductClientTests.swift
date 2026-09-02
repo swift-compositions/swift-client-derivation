@@ -1,5 +1,6 @@
-import Client_Derivation
-import Client
+public import Client_Derivation
+public import Client
+public import Either
 import Testing
 
 extension Product {
