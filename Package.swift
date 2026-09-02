@@ -17,11 +17,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-foundations/swift-client.git",
+            url: "https://github.com/swift-compositions/swift-client.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-either-primitives.git",
+            url: "https://github.com/swift-atoms/swift-either.git",
             branch: "main"
         ),
         .package(
@@ -45,7 +45,7 @@ let package = Package(
             dependencies: [
                 "Client Derivation Macros",
                 .product(name: "Client", package: "swift-client"),
-                .product(name: "Either Primitives", package: "swift-either-primitives"),
+                .product(name: "Either", package: "swift-either"),
             ]
         ),
         .testTarget(
