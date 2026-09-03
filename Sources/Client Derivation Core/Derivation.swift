@@ -1,5 +1,6 @@
 public import SwiftSyntax
 public import Signature_Derivation_Core
+import Product_Derivation_Core
 import SwiftSyntaxBuilder
 
 public enum Derivation {
