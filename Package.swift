@@ -14,29 +14,29 @@ let package = Package(
     ],
     products: [
         .library(name: "Client Derivation", targets: ["Client Derivation"]),
+        .library(name: "Client Derivation Core", targets: ["Client Derivation Core"]),
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/swift-compositions/swift-client.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-either.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swiftlang/swift-syntax.git",
-            "602.0.0"..<"603.0.0"
-        ),
+        .package(url: "https://github.com/swift-atoms/swift-either.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-client.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-signature-derivation.git", branch: "main"),
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.2"..<"604.0.0"),
     ],
     targets: [
+        .target(
+            name: "Client Derivation Core",
+            dependencies: [
+                .product(name: "Signature Derivation Core", package: "swift-signature-derivation"),
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+            ]
+        ),
         .macro(
             name: "Client Derivation Macros",
             dependencies: [
+                "Client Derivation Core",
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-                .product(name: "SwiftDiagnostics", package: "swift-syntax"),
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
             ]
         ),
@@ -51,9 +51,10 @@ let package = Package(
         .testTarget(
             name: "Client Derivation Tests",
             dependencies: [
-                .product(name: "Either", package: "swift-either"),
                 "Client Derivation",
                 .product(name: "Client", package: "swift-client"),
+                .product(name: "Either", package: "swift-either"),
+                .product(name: "Signature Derivation", package: "swift-signature-derivation"),
             ]
         ),
     ],
@@ -61,13 +62,17 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
+    let ecosystem: [SwiftSetting] = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
+        .enableExperimentalFeature("MoveOnlyTuples"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
+    let package: [SwiftSetting] = []
+
+    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
