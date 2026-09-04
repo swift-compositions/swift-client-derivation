@@ -17,7 +17,11 @@ let package = Package(
         .library(name: "Client Derivation Core", targets: ["Client Derivation Core"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-coder.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-either.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-operation.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-parser.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-serializer.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-client.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-signature-derivation.git", branch: "main"),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.2"..<"604.0.0"),
@@ -45,7 +49,11 @@ let package = Package(
             dependencies: [
                 "Client Derivation Macros",
                 .product(name: "Client", package: "swift-client"),
+                .product(name: "Coder", package: "swift-coder"),
                 .product(name: "Either", package: "swift-either"),
+                .product(name: "Operation", package: "swift-operation"),
+                .product(name: "Parser", package: "swift-parser"),
+                .product(name: "Serializer", package: "swift-serializer"),
             ]
         ),
         .testTarget(
@@ -53,7 +61,11 @@ let package = Package(
             dependencies: [
                 "Client Derivation",
                 .product(name: "Client", package: "swift-client"),
+                .product(name: "Coder", package: "swift-coder"),
                 .product(name: "Either", package: "swift-either"),
+                .product(name: "Operation", package: "swift-operation"),
+                .product(name: "Parser", package: "swift-parser"),
+                .product(name: "Serializer", package: "swift-serializer"),
                 .product(name: "Signature Derivation", package: "swift-signature-derivation"),
             ]
         ),
